@@ -1,0 +1,22 @@
+{
+	"name"					: "Smart Fridge",
+	"short_name"			: "sFridge",
+	"description"			: "Mit diesem Tool kann man einen smarten Kühlschrank steuern.",
+	"start_url"				: "/smartfridge/index.html",
+	"display"				: "standalone",
+	"orientation"			: "any",
+	"background_color"		: "#474747",
+	"theme_color"			: "#474747",
+	"icons": [
+		{
+			"src"			: "/smartfridge/assets/logo_192.png",
+			"sizes"			: "192x192",
+			"type"			: "image/png"
+		},
+		{
+			"src"			: "/smartfridge/assets/logo_512.png",
+			"sizes"			: "512x512",
+			"type"			: "image/png"
+		}
+	]
+}

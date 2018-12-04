@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta charset="utf-8" />
+		<meta name="theme-color" content="#EA120B">
+		<meta name="keywords" lang="de" content="Smart, Fridge, Kühlschrank">
+		<meta name="description" content="This is the SmartFridge-Webapp from the IDPA-Project 'smarte Minibar' at the BBB-School in 2018">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" href="styles.css" type="text/css">
+		<title>Smart Fridge</title>
+		<link rel="icon" href="assets/favicon.png">
+		<link rel="manifest" href="manifest.json">
+		<script src="connector.js" async></script>
+		<script src="logic.js" async></script>
+	</head>
+	<body class="w3-center w3-grey w3-mobile">
+		<div id="message" class="w3-top w3-padding w3-hide"></div>
+		<h1 class="w3-jumbo">Smart Fridge</h1>
+		<div id="mainControllButtons">
+			<span onclick="document.getElementById('tutorial').style.display='block'" class="w3-button">Anleitung öffnen</span>
+			<span onclick="positiveCallBackHandler(501, '1:0,2:0,3:0,4:0')" class="w3-button">Flaschen entfernen</span>
+			<span onclick="positiveCallBackHandler(501, '1:1400,2:1400,3:1400,4:1400')" class="w3-button">Flaschen füllen</span>
+			<span onclick="positiveCallBackHandler(501, '1:400,2:400,3:400,4:400')" class="w3-button">Flaschen leeren</span>
+			<span onclick="positiveCallBackHandler(501, '1:'+(Math.random()*1000+400)+',2:'+(Math.random()*1000+400)+',3:'+(Math.random()*1000+400)+',4:'+(Math.random()*1000+400)+'')" class="w3-button">Zufällige Füllstände</span>
+		</div>
+		<div id="content">
+			<div id="trays">
+				<div class="tray">
+					<div class="title"><h3>Platz 1</h3></div>
+					<div class="trayWeight">Gewicht: <span id="weight1"></span></div>
+					<div class="trayWeightPercentage">in Prozent: <span id="weightPercentage1"></span>%</div>
+					<div class="trayStored">Inhalt: <span id="storage1"></span></div>
+					<div class="changeStored">
+						<button onclick="changeStored(1)" class="w3-button">Anderer Inhalt</button> 
+					</div>
+					<div class="controlButtons">
+						<button id="setMaxWeight1" onclick="setMax(1)" class="w3-button">Flasche ist jetzt voll</button>
+					</div>
+					<div class="traySVG">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="607.5 139 216.625 763.206" xmlns:xlink="http://www.w3.org/1999/xlink">
+							<rect id="svgLevel1" xmlns="http://www.w3.org/2000/svg" fill="rgb(10, 249, 255)" transform="matrix(1, 0, 0, 1, 0, 0)" x="615" y="890" width="201.625" height="0" />
+							<path id="svgBackground1" xmlns="http://www.w3.org/2000/svg" fill="rgb(255, 255, 255)" d="M 641.904 366.757 L 650.909 366.757 C 665.799 366.757 677.887 354.669 677.887 339.779 L 677.887 164.735 C 677.887 149.845 665.799 137.757 650.909 137.757 L 639.795 137.757 C 624.905 137.757 612.817 149.845 612.817 164.735 L 612.817 338.257 L 612.462 410.05 L 615.075 404.825 C 620.396 386.925 625.839 371 641 371 L 641.904 366.757 Z M 789.284 366.757 L 788.707 368.56 C 809.838 372.911 814.147 398.056 819.119 408 L 819.119 338.915 L 819.119 165.599 C 819.119 150.232 806.644 137.757 791.277 137.757 L 780.842 137.757 C 765.476 137.757 753 150.232 753 165.599 L 753 338.915 C 753 354.281 765.476 366.757 780.842 366.757 L 789.284 366.757 Z M 819.119 863.081 Q 815.544 886.746 783.833 897.05 L 819.119 897.05 L 819.119 863.081 Z M 612.52 862.443 Q 613.706 883.594 646.388 897.135 L 612.52 897.135 L 612.52 862.443 Z" />
+							<path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3" stroke-width="5" d="M 753.219 196.25 L 753.219 349.736 C 757.148 357.976 764.769 364.122 773.944 366.007 C 797.576 366.45 816.625 385.773 816.625 409.51 L 816.625 593.49 C 816.625 593.49 816.625 593.49 816.625 593.49 L 816.625 657.821 C 816.625 657.821 816.625 657.821 816.625 657.821 L 816.625 853.5 L 816.625 863.012 C 816.625 880.504 802.424 894.706 784.932 894.706 L 646.693 894.706 C 629.201 894.706 615 880.504 615 863.012 L 615 657.821 L 615 593.49 L 615 502.5 L 615 409.51 C 615 386.026 633.646 366.862 656.93 366.033 C 666.676 364.073 674.685 357.312 678.406 348.332 L 678.406 285 L 678.406 153 L 753.219 153 L 753.219 196.25 Z" vector-effect="non-scaling-stroke" />
+							<path xmlns="http://www.w3.org/2000/svg" fill="rgb(0, 0, 0)" d="M 671.516 151.595 L 671.516 164.19 L 685.222 164.19 L 746.403 164.19 L 760.109 164.19 L 760.109 151.595 C 760.109 144.644 753.968 139 746.403 139 L 685.222 139 C 677.657 139 671.516 144.644 671.516 151.595 Z" />
+						</svg>
+					</div>
+				</div>
+				<div class="tray">
+					<div class="title"><h3>Platz 2</h3></div>
+					<div class="trayWeight">Gewicht: <span id="weight2"></span></div>
+					<div class="trayWeightPercentage">in Prozent: <span id="weightPercentage2"></span>%</div>
+					<div class="trayStored">Inhalt: <span id="storage2"></span></div>
+					<div class="changeStored">
+						<button onclick="changeStored(2)" class="w3-button">Anderer Inhalt</button> 
+					</div>
+					<div class="controlButtons">
+						<button id="setMaxWeight2" onclick="setMax(2)" class="w3-button">Flasche ist jetzt voll</button>
+					</div>
+					<div class="traySVG">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="607.5 139 216.625 763.206" xmlns:xlink="http://www.w3.org/1999/xlink">
+							<rect id="svgLevel2" xmlns="http://www.w3.org/2000/svg" fill="rgb(10, 249, 255)" transform="matrix(1, 0, 0, 1, 0, 0)" x="615" y="890" width="201.625" height="0" />
+							<path id="svgBackground2" xmlns="http://www.w3.org/2000/svg" fill="rgb(255, 255, 255)" d="M 641.904 366.757 L 650.909 366.757 C 665.799 366.757 677.887 354.669 677.887 339.779 L 677.887 164.735 C 677.887 149.845 665.799 137.757 650.909 137.757 L 639.795 137.757 C 624.905 137.757 612.817 149.845 612.817 164.735 L 612.817 338.257 L 612.462 410.05 L 615.075 404.825 C 620.396 386.925 625.839 371 641 371 L 641.904 366.757 Z M 789.284 366.757 L 788.707 368.56 C 809.838 372.911 814.147 398.056 819.119 408 L 819.119 338.915 L 819.119 165.599 C 819.119 150.232 806.644 137.757 791.277 137.757 L 780.842 137.757 C 765.476 137.757 753 150.232 753 165.599 L 753 338.915 C 753 354.281 765.476 366.757 780.842 366.757 L 789.284 366.757 Z M 819.119 863.081 Q 815.544 886.746 783.833 897.05 L 819.119 897.05 L 819.119 863.081 Z M 612.52 862.443 Q 613.706 883.594 646.388 897.135 L 612.52 897.135 L 612.52 862.443 Z" />
+							<path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3" stroke-width="5" d="M 753.219 196.25 L 753.219 349.736 C 757.148 357.976 764.769 364.122 773.944 366.007 C 797.576 366.45 816.625 385.773 816.625 409.51 L 816.625 593.49 C 816.625 593.49 816.625 593.49 816.625 593.49 L 816.625 657.821 C 816.625 657.821 816.625 657.821 816.625 657.821 L 816.625 853.5 L 816.625 863.012 C 816.625 880.504 802.424 894.706 784.932 894.706 L 646.693 894.706 C 629.201 894.706 615 880.504 615 863.012 L 615 657.821 L 615 593.49 L 615 502.5 L 615 409.51 C 615 386.026 633.646 366.862 656.93 366.033 C 666.676 364.073 674.685 357.312 678.406 348.332 L 678.406 285 L 678.406 153 L 753.219 153 L 753.219 196.25 Z" vector-effect="non-scaling-stroke" />
+							<path xmlns="http://www.w3.org/2000/svg" fill="rgb(0, 0, 0)" d="M 671.516 151.595 L 671.516 164.19 L 685.222 164.19 L 746.403 164.19 L 760.109 164.19 L 760.109 151.595 C 760.109 144.644 753.968 139 746.403 139 L 685.222 139 C 677.657 139 671.516 144.644 671.516 151.595 Z" />
+						</svg>
+					</div>
+				</div>
+				<div class="tray">
+					<div class="title"><h3>Platz 3</h3></div>
+					<div class="trayWeight">Gewicht: <span id="weight3"></span></div>
+					<div class="trayWeightPercentage">in Prozent: <span id="weightPercentage3"></span>%</div>
+					<div class="trayStored">Inhalt: <span id="storage3"></span></div>
+					<div class="changeStored">
+						<button onclick="changeStored(3)" class="w3-button">Anderer Inhalt</button> 
+					</div>
+					<div class="controlButtons">
+						<button id="setMaxWeight3" onclick="setMax(3)" class="w3-button">Flasche ist jetzt voll</button>
+					</div>
+					<div class="traySVG">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="607.5 139 216.625 763.206" xmlns:xlink="http://www.w3.org/1999/xlink">
+							<rect id="svgLevel3" xmlns="http://www.w3.org/2000/svg" fill="rgb(10, 249, 255)" transform="matrix(1, 0, 0, 1, 0, 0)" x="615" y="890" width="201.625" height="0" />
+							<path id="svgBackground3" xmlns="http://www.w3.org/2000/svg" fill="rgb(255, 255, 255)" d="M 641.904 366.757 L 650.909 366.757 C 665.799 366.757 677.887 354.669 677.887 339.779 L 677.887 164.735 C 677.887 149.845 665.799 137.757 650.909 137.757 L 639.795 137.757 C 624.905 137.757 612.817 149.845 612.817 164.735 L 612.817 338.257 L 612.462 410.05 L 615.075 404.825 C 620.396 386.925 625.839 371 641 371 L 641.904 366.757 Z M 789.284 366.757 L 788.707 368.56 C 809.838 372.911 814.147 398.056 819.119 408 L 819.119 338.915 L 819.119 165.599 C 819.119 150.232 806.644 137.757 791.277 137.757 L 780.842 137.757 C 765.476 137.757 753 150.232 753 165.599 L 753 338.915 C 753 354.281 765.476 366.757 780.842 366.757 L 789.284 366.757 Z M 819.119 863.081 Q 815.544 886.746 783.833 897.05 L 819.119 897.05 L 819.119 863.081 Z M 612.52 862.443 Q 613.706 883.594 646.388 897.135 L 612.52 897.135 L 612.52 862.443 Z" />
+							<path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3" stroke-width="5" d="M 753.219 196.25 L 753.219 349.736 C 757.148 357.976 764.769 364.122 773.944 366.007 C 797.576 366.45 816.625 385.773 816.625 409.51 L 816.625 593.49 C 816.625 593.49 816.625 593.49 816.625 593.49 L 816.625 657.821 C 816.625 657.821 816.625 657.821 816.625 657.821 L 816.625 853.5 L 816.625 863.012 C 816.625 880.504 802.424 894.706 784.932 894.706 L 646.693 894.706 C 629.201 894.706 615 880.504 615 863.012 L 615 657.821 L 615 593.49 L 615 502.5 L 615 409.51 C 615 386.026 633.646 366.862 656.93 366.033 C 666.676 364.073 674.685 357.312 678.406 348.332 L 678.406 285 L 678.406 153 L 753.219 153 L 753.219 196.25 Z" vector-effect="non-scaling-stroke" />
+							<path xmlns="http://www.w3.org/2000/svg" fill="rgb(0, 0, 0)" d="M 671.516 151.595 L 671.516 164.19 L 685.222 164.19 L 746.403 164.19 L 760.109 164.19 L 760.109 151.595 C 760.109 144.644 753.968 139 746.403 139 L 685.222 139 C 677.657 139 671.516 144.644 671.516 151.595 Z" />
+						</svg>
+					</div>
+				</div>
+				<div class="tray">
+					<div class="title"><h3>Platz 4</h3></div>
+					<div class="trayWeight">Gewicht: <span id="weight4"></span></div>
+					<div class="trayWeightPercentage">in Prozent: <span id="weightPercentage4"></span>%</div>
+					<div class="trayStored">Inhalt: <span id="storage4"></span></div>
+					<div class="changeStored">
+						<button onclick="changeStored(4)" class="w3-button">Anderer Inhalt</button> 
+					</div>
+					<div class="controlButtons">
+						<button id="setMaxWeight4" onclick="setMax(4)" class="w3-button">Flasche ist jetzt voll</button>
+					</div>
+					<div class="traySVG">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="607.5 139 216.625 763.206" xmlns:xlink="http://www.w3.org/1999/xlink">
+							<rect id="svgLevel4" xmlns="http://www.w3.org/2000/svg" fill="rgb(10, 249, 255)" transform="matrix(1, 0, 0, 1, 0, 0)" x="615" y="890" width="201.625" height="0" />
+							<path id="svgBackground4" xmlns="http://www.w3.org/2000/svg" fill="rgb(255, 255, 255)" d="M 641.904 366.757 L 650.909 366.757 C 665.799 366.757 677.887 354.669 677.887 339.779 L 677.887 164.735 C 677.887 149.845 665.799 137.757 650.909 137.757 L 639.795 137.757 C 624.905 137.757 612.817 149.845 612.817 164.735 L 612.817 338.257 L 612.462 410.05 L 615.075 404.825 C 620.396 386.925 625.839 371 641 371 L 641.904 366.757 Z M 789.284 366.757 L 788.707 368.56 C 809.838 372.911 814.147 398.056 819.119 408 L 819.119 338.915 L 819.119 165.599 C 819.119 150.232 806.644 137.757 791.277 137.757 L 780.842 137.757 C 765.476 137.757 753 150.232 753 165.599 L 753 338.915 C 753 354.281 765.476 366.757 780.842 366.757 L 789.284 366.757 Z M 819.119 863.081 Q 815.544 886.746 783.833 897.05 L 819.119 897.05 L 819.119 863.081 Z M 612.52 862.443 Q 613.706 883.594 646.388 897.135 L 612.52 897.135 L 612.52 862.443 Z" />
+							<path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3" stroke-width="5" d="M 753.219 196.25 L 753.219 349.736 C 757.148 357.976 764.769 364.122 773.944 366.007 C 797.576 366.45 816.625 385.773 816.625 409.51 L 816.625 593.49 C 816.625 593.49 816.625 593.49 816.625 593.49 L 816.625 657.821 C 816.625 657.821 816.625 657.821 816.625 657.821 L 816.625 853.5 L 816.625 863.012 C 816.625 880.504 802.424 894.706 784.932 894.706 L 646.693 894.706 C 629.201 894.706 615 880.504 615 863.012 L 615 657.821 L 615 593.49 L 615 502.5 L 615 409.51 C 615 386.026 633.646 366.862 656.93 366.033 C 666.676 364.073 674.685 357.312 678.406 348.332 L 678.406 285 L 678.406 153 L 753.219 153 L 753.219 196.25 Z" vector-effect="non-scaling-stroke" />
+							<path xmlns="http://www.w3.org/2000/svg" fill="rgb(0, 0, 0)" d="M 671.516 151.595 L 671.516 164.19 L 685.222 164.19 L 746.403 164.19 L 760.109 164.19 L 760.109 151.595 C 760.109 144.644 753.968 139 746.403 139 L 685.222 139 C 677.657 139 671.516 144.644 671.516 151.595 Z" />
+						</svg>
+					</div>
+				</div>
+			</div>
+			<div id="tutorial" class="w3-modal">
+				<div class="w3-modal-content w3-animate-zoom w3-card-4 w3-grey ">
+					<span onclick="document.getElementById('tutorial').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+					<h2>Anleitung Smart Fridge</h2>
+					<p>Willkommen zum IDPA-Projekt "smarte Minibar" von Jeremiah und Ismael Waber, Robin Odermatt und Flavio Piagno. In diesem Projekt versuchten wir das Gewicht von Getränken in einer Minibar zu messen und in einer (Web-)App darzustellen. Sollte die Minibar nicht zur Verfügung stehen, kann die App mithilfe der Kontrollknöpfe oben gesteuert werden. Um diese Anleitung wieder anzuzeigen, können auch die Kontrollknöpfe benutzt werden.</p>
+					<p>Die App verbindet sich vollautomatisch mit der verfügbaren Minibar, sollte keine Minibar verfügbar sein, werden Fehlermeldungen oben in der App angezeigt. Diese können beim austesten der Webapp ignoriert werden.</p>
+					<h4>Handhabung</h4>
+					<p>Die App fragt jede 10 Sekunden die Minibar ab, wie der aktuelle Füllstand der einzelnen Flaschen ist. Das Reingewicht wird direkt angezeigt.<br />Durch einen Klick auf "Flasche ist voll" kann die Füllmenge zum Beispiel 1500 Milliliter angegeben werden. Nun kann die App den aktuellen Füllstand berechnen, sowie graphisch auf dem Flaschen-Bild darstellen.<br />Mithilfe des Knopfes "Anderer Inhalt" kann ein Falscheninhalt angegeben werden. Dieser wird dann auch dargestellt.</p>
+					<p>Die App speichert die letzen Werte lokal ab und ist auch offline verfügbar. Somit kann man jederzeit auf die App und die letzten Werte zugreifen.</p>
+					<div>Erstellt: 20.08.2018 | Stand: 20.08.2018</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
